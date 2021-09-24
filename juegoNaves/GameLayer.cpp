@@ -8,6 +8,9 @@ GameLayer::GameLayer(Game* game)
 
 void GameLayer::init() {
 
+	audioBackground = new Audio("res/musica_ambiente.mp3", true);
+	audioBackground->play();
+
 	//Puntos
 	points = 0;
 	textPoints = new Text("0", WIDTH * 0.90, HEIGHT * 0.05, game);
@@ -160,6 +163,20 @@ void GameLayer::update() {
 	list<Enemy*> deleteEnemies;
 	list<Projectile*> deleteProjectiles;
 
+	for (auto const& projectile : projectiles) {
+		if (projectile->isInRender() == false) {
+
+			bool pInList = std::find(deleteProjectiles.begin(),
+				deleteProjectiles.end(),
+				projectile) != deleteProjectiles.end();
+
+			if (!pInList) {
+				deleteProjectiles.push_back(projectile);
+			}
+		}
+	}
+
+
 	for (auto const& enemy : enemies) {
 		for (auto const& projectile : projectiles) {
 			if (enemy->isOverlap(projectile)) {
@@ -194,6 +211,7 @@ void GameLayer::update() {
 
 	for (auto const& delProjectile : deleteProjectiles) {
 		projectiles.remove(delProjectile);
+		delete delProjectile;
 	}
 	deleteProjectiles.clear();
 

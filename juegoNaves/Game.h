@@ -8,6 +8,8 @@ using namespace std;
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include <map> 
+
 #include "Layer.h"
 class Layer;
 
@@ -22,6 +24,8 @@ public:
 	void loop();
 
 	void scale();
+	SDL_Texture* getTexture(string filename);
+	map<string, SDL_Texture*> mapTextures; // map - cache
 
 	TTF_Font* font;
 
@@ -34,5 +38,7 @@ public:
 
 	Layer* gameLayer;
 };
+
+
 
 

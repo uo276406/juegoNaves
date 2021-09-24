@@ -7,6 +7,8 @@
 #include "Projectile.h"
 #include "Text.h"
 
+#include "Audio.h"
+
 #include <list>
 
 class GameLayer : public Layer
@@ -14,6 +16,9 @@ class GameLayer : public Layer
 public:
 	GameLayer(Game* game);
 	void init() override;
+
+	Audio* audioBackground;
+
 	void processControls() override;
 	void update() override;
 	void draw() override;

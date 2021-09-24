@@ -1,0 +1,32 @@
+﻿  Actor.cpp
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\juegoNaves\Actor.cpp(7,12): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\juegoNaves\Actor.cpp(8,12): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+  Background.cpp
+  Enemy.cpp
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\juegoNaves\Enemy.cpp(10,8): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+  Game.cpp
+  GameLayer.cpp
+  Layer.cpp
+  Main.cpp
+  Player.cpp
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\juegoNaves\Player.cpp(9,8): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\juegoNaves\Player.cpp(10,8): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+  Generando código...
+Actor.obj : error LNK2019: símbolo externo SDL_CreateTextureFromSurface sin resolver al que se hace referencia en la función "public: __cdecl Actor::Actor(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,float,float,int,int,class Game *)" (??0Actor@@QEAA@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@MMHHPEAVGame@@@Z)
+Actor.obj : error LNK2019: símbolo externo SDL_RenderCopyEx sin resolver al que se hace referencia en la función "public: virtual void __cdecl Actor::draw(void)" (?draw@Actor@@UEAAXXZ)
+Actor.obj : error LNK2019: símbolo externo IMG_Load sin resolver al que se hace referencia en la función "public: __cdecl Actor::Actor(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,float,float,int,int,class Game *)" (??0Actor@@QEAA@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@MMHHPEAVGame@@@Z)
+Game.obj : error LNK2019: símbolo externo SDL_GetError sin resolver al que se hace referencia en la función "public: __cdecl Game::Game(void)" (??0Game@@QEAA@XZ)
+Game.obj : error LNK2019: símbolo externo SDL_SetWindowTitle sin resolver al que se hace referencia en la función "public: __cdecl Game::Game(void)" (??0Game@@QEAA@XZ)
+Game.obj : error LNK2019: símbolo externo SDL_SetHint sin resolver al que se hace referencia en la función "public: __cdecl Game::Game(void)" (??0Game@@QEAA@XZ)
+Game.obj : error LNK2019: símbolo externo SDL_CreateWindowAndRenderer sin resolver al que se hace referencia en la función "public: __cdecl Game::Game(void)" (??0Game@@QEAA@XZ)
+Game.obj : error LNK2019: símbolo externo SDL_GetTicks sin resolver al que se hace referencia en la función "public: void __cdecl Game::loop(void)" (?loop@Game@@QEAAXXZ)
+Game.obj : error LNK2019: símbolo externo SDL_Delay sin resolver al que se hace referencia en la función "public: void __cdecl Game::loop(void)" (?loop@Game@@QEAAXXZ)
+Game.obj : error LNK2019: símbolo externo SDL_Init sin resolver al que se hace referencia en la función "public: __cdecl Game::Game(void)" (??0Game@@QEAA@XZ)
+GameLayer.obj : error LNK2019: símbolo externo SDL_PollEvent sin resolver al que se hace referencia en la función "public: virtual void __cdecl GameLayer::processControls(void)" (?processControls@GameLayer@@UEAAXXZ)
+GameLayer.obj : error LNK2019: símbolo externo SDL_RenderPresent sin resolver al que se hace referencia en la función "public: virtual void __cdecl GameLayer::draw(void)" (?draw@GameLayer@@UEAAXXZ)
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\\dependencias\lib\SDL2.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\\dependencias\lib\SDL2main.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\\dependencias\lib\SDL2_image.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\\dependencias\lib\SDL2_ttf.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\\dependencias\lib\SDL2_mixer.lib : warning LNK4272: el tipo de máquina de biblioteca 'x86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\diego\OneDrive\Escritorio\SEV\juegoNaves\x64\Debug\juegoNaves.exe : fatal error LNK1120: 12 externos sin resolver
