@@ -5,6 +5,7 @@ Player::Player(float x, float y, Game* game)
 
 	audioShoot = new Audio("res/efecto_disparo.wav", false);
 
+	numberOfLifes = 3;
 }
 
 Projectile* Player::shoot() {

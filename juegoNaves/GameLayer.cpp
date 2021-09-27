@@ -14,10 +14,12 @@ void GameLayer::init() {
 	//Puntos
 	points = 0;
 	textPoints = new Text("0", WIDTH * 0.90, HEIGHT * 0.05, game);
+	textLifes = new Text("3", WIDTH * 0.93, HEIGHT * 0.85, game);
 
 	player = new Player(50, 50, game); 
 	background = new Background("res/fondo.png", WIDTH * 0.5, HEIGHT * 0.5, -1,game);
 	backgroundPoints = new Actor("res/icono_puntos.png",WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
+	backgroundLifes = new Actor("res/corazon.png", WIDTH * (0.85), HEIGHT * (0.85), 44, 36, game);
 
 
 	playerProjectiles.clear(); //Vaciar por si reiniciamos el juego
@@ -134,6 +136,10 @@ void GameLayer::keysToControls(SDL_Event event) {
 
 void GameLayer::update() {
 
+	list<Enemy*> deleteEnemies;
+	list<Projectile*> deletePlayerProjectiles;
+	list<Projectile*> deleteEnemyProjectiles;
+
 	background->update();
 
 	// Generar enemigos
@@ -153,12 +159,10 @@ void GameLayer::update() {
 
 		if (enemy->isInRender()) {
 			Projectile* newProjectile = enemy->shoot();
-				if (newProjectile != NULL) {
-					enemyProjectiles.push_back(newProjectile);
-				}
+			if (newProjectile != NULL) {
+				enemyProjectiles.push_back(newProjectile);
+			}
 		}
-
-		
 
 	}
 
@@ -170,19 +174,54 @@ void GameLayer::update() {
 		projectile->update();
 	}
 
-	// Colisiones
+	// Colisiones Enemigo - Jugador
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
-			init();
-			return; // Cortar el for
+			if (player->numberOfLifes == 1) {
+				init();
+				return; // Cortar el for
+			}
+			else {
+				
+				player->numberOfLifes--;
+				textLifes->content = to_string(player->numberOfLifes);
+
+				//Elimina el enemigo
+				bool eInList = std::find(deleteEnemies.begin(),
+					deleteEnemies.end(),
+					enemy) != deleteEnemies.end();
+
+				if (!eInList) {
+					deleteEnemies.push_back(enemy);
+
+				}
+			}
 		}
 	}
-	// Colisiones , Enemy - Projectile
 
-	list<Enemy*> deleteEnemies;
-	list<Projectile*> deletePlayerProjectiles;
-	list<Projectile*> deleteEnemyProjectiles;
+	//Colisiones Jugador - Proyectil Enemigo
+	for (auto const& projectile : enemyProjectiles) {
+		if (player->isOverlap(projectile)) {
+			if (player->numberOfLifes == 1) {
+				init();
+				return; // Cortar el for
+			}
+			else {
+				player->numberOfLifes--;
+				textLifes->content = to_string(player->numberOfLifes);
 
+				//Disparos de los enemigos 
+				bool peInList = std::find(deleteEnemyProjectiles.begin(),
+					deleteEnemyProjectiles.end(),
+					projectile) != deleteEnemyProjectiles.end();
+				if (!peInList) {
+					deleteEnemyProjectiles.push_back(projectile);
+				}
+			}
+		}
+	}
+
+	//Elimina disparos de player fuera de render
 	for (auto const& projectile : playerProjectiles) {
 		if (projectile->isInRender() == false) {
 
@@ -194,7 +233,12 @@ void GameLayer::update() {
 			if (!pInList) {
 				deletePlayerProjectiles.push_back(projectile);
 			}
-			
+		}
+	}
+
+	//Elimina disparos de enemy fuera de render
+	for (auto const& projectile : enemyProjectiles) {
+		if (projectile->isInRender() == false) {
 			//Disparos de los enemigos 
 			bool peInList = std::find(deleteEnemyProjectiles.begin(),
 				deleteEnemyProjectiles.end(),
@@ -203,21 +247,14 @@ void GameLayer::update() {
 			if (!peInList) {
 				deleteEnemyProjectiles.push_back(projectile);
 			}
-
 		}
 	}
 
-	for (auto const& projectile : enemyProjectiles) {
-		if (player->isOverlap(projectile)) {
-			init();
-			return;
-		}
-	}
-
-
+	// Colisiones , Enemy - Player Projectile
 	for (auto const& enemy : enemies) {
 		for (auto const& projectile : playerProjectiles) {
 			if (enemy->isOverlap(projectile)) {
+
 				bool pInList = std::find(deletePlayerProjectiles.begin(),
 					deletePlayerProjectiles.end(),
 					projectile) != deletePlayerProjectiles.end();
@@ -253,6 +290,11 @@ void GameLayer::update() {
 	}
 	deletePlayerProjectiles.clear();
 
+	for (auto const& delProjectile : deleteEnemyProjectiles) {
+		enemyProjectiles.remove(delProjectile);
+		delete delProjectile;
+	}
+	deleteEnemyProjectiles.clear();
 
 	cout << "update GameLayer" << endl;
 
@@ -280,6 +322,8 @@ void GameLayer::draw() {
 
 	textPoints->draw();
 	backgroundPoints->draw();
+	textLifes->draw();
+	backgroundLifes->draw();
 
 	SDL_RenderPresent(game->renderer); // Renderiza
 }

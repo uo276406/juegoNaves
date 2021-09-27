@@ -23,6 +23,7 @@ public:
 	void update() override;
 	void draw() override;
 	void keysToControls(SDL_Event event);
+	
 	int newEnemyTime = 0;
 
 	list<Enemy*> enemies;
@@ -32,7 +33,9 @@ public:
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;
+	Actor* backgroundLifes;
 	Text* textPoints;
+	Text* textLifes;
 	int points;
 	bool controlShoot = false;
 	int controlMoveY = 0;
