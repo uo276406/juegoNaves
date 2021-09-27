@@ -26,7 +26,8 @@ public:
 	int newEnemyTime = 0;
 
 	list<Enemy*> enemies;
-	list<Projectile*> projectiles;
+	list<Projectile*> playerProjectiles;
+	list<Projectile*> enemyProjectiles;
 
 	Player* player;
 	Background* background;

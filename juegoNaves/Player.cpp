@@ -11,7 +11,7 @@ Projectile* Player::shoot() {
 	if (shootTime == 0) {
 		audioShoot->play();
 		shootTime = shootCadence;
-		return new Projectile(x, y, game);
+		return new Projectile("res/disparo_jugador.png",x, y,18,6, game, 9);
 	}
 	else {
 		return NULL;

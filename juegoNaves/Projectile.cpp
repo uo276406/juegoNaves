@@ -1,8 +1,8 @@
 #include "Projectile.h"
 
-Projectile::Projectile(float x, float y, Game* game) :
-	Actor("res/disparo_jugador.png", x, y, 18, 6, game) {
-	vx = 9;
+Projectile::Projectile(string image, float x, float y, int width, int height, Game* game, int vx) :
+	Actor(image, x, y, width, height, game) {
+	this->vx = vx;
 }
 
 void Projectile::update() {
