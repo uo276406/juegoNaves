@@ -7,6 +7,7 @@
 #include "Projectile.h"
 #include "Text.h"
 #include "Coin.h"
+#include "Bomb.h"
 
 #include "Audio.h"
 
@@ -31,12 +32,13 @@ public:
 	list<Projectile*> playerProjectiles;
 	list<Projectile*> enemyProjectiles;
 	list<Coin*> coins;
+	list<Bomb*> bombs;
 
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;
 	Actor* backgroundLifes;
-	Coin* coin;
+
 	Text* textPoints;
 	Text* textLifes;
 	int points;

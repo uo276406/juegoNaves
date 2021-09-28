@@ -28,7 +28,7 @@ void GameLayer::init() {
 	enemies.push_back(new Enemy(300, 50, game));
 	enemies.push_back(new Enemy(300, 200, game));
 	coins.push_back(new Coin(400, 150, game));
-
+	bombs.push_back(new Bomb(490, 100, game));
 
 }
 
@@ -140,18 +140,30 @@ void GameLayer::update() {
 	list<Projectile*> deletePlayerProjectiles;
 	list<Projectile*> deleteEnemyProjectiles;
 	list<Coin*> deleteCoins;
+	list<Bomb*> deleteBombs;
 
 	background->update();
 
-	// Generar enemigos
+	// Generar enemigos, monedas y bombas
 	newEnemyTime--;
 	if (newEnemyTime <= 0) {
+		
 		int rX = (rand() % (600 - 500)) + 1 + 500;
 		int rY = (rand() % (300 - 60)) + 1 + 60;
 		enemies.push_back(new Enemy(rX, rY, game));
+		
 		rX = (rand() % (600 - 500)) + 1 + 500;
 		rY = (rand() % (300 - 60)) + 1 + 60;
-		coins.push_back(new Coin(rX, rY, game));
+		//Para que no se sature de monedas
+		if(coins.size() <= 2)
+			coins.push_back(new Coin(rX, rY, game));
+
+		rX = (rand() % (600 - 500)) + 1 + 500;
+		rY = (rand() % (300 - 60)) + 1 + 60;
+		//Para que no se sature de bombas la pantalla se añade una sola por pantalla
+		if(bombs.empty())
+			bombs.push_back(new Bomb(rX, rY, game));
+
 		newEnemyTime = 110;
 
 	}
@@ -175,11 +187,30 @@ void GameLayer::update() {
 				deleteCoins.push_back(coin);
 
 			}
-
 		}
 	}
 	
+	// Colisiones bomb - player
+	for (auto const& bomb : bombs) {
+		bomb->update();
+		if (player->isOverlap(bomb)) {
 
+
+			//Elimina la bomb
+			bool bInList = std::find(deleteBombs.begin(),
+				deleteBombs.end(),
+				bomb) != deleteBombs.end();
+
+			if (!bInList) {
+				deleteBombs.push_back(bomb);
+
+			}
+
+			//Elimina todos los enemigos
+			enemies.clear();
+
+		}
+	}
 
 	player->update();
 	for (auto const& enemy : enemies) {
@@ -318,6 +349,11 @@ void GameLayer::update() {
 	}
 	deleteCoins.clear();
 
+	for (auto const& delBomb : deleteBombs) {
+		bombs.remove(delBomb);
+	}
+	deleteBombs.clear();
+
 	for (auto const& delProjectile : deletePlayerProjectiles) {
 		playerProjectiles.remove(delProjectile);
 		delete delProjectile;
@@ -352,6 +388,10 @@ void GameLayer::draw() {
 
 	for (auto const& coin : coins) {
 		coin->draw();
+	}
+
+	for (auto const& bomb : bombs) {
+		bomb->draw();
 	}
 
 	for (auto const& enemy : enemies) {
