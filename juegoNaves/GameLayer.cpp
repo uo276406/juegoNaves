@@ -21,13 +21,13 @@ void GameLayer::init() {
 	backgroundPoints = new Actor("res/icono_puntos.png",WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
 	backgroundLifes = new Actor("res/corazon.png", WIDTH * (0.85), HEIGHT * (0.85), 44, 36, game);
 
-
 	playerProjectiles.clear(); //Vaciar por si reiniciamos el juego
 	enemyProjectiles.clear();
 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 	enemies.push_back(new Enemy(300, 50, game));
 	enemies.push_back(new Enemy(300, 200, game));
+	coins.push_back(new Coin(400, 150, game));
 
 
 }
@@ -139,6 +139,7 @@ void GameLayer::update() {
 	list<Enemy*> deleteEnemies;
 	list<Projectile*> deletePlayerProjectiles;
 	list<Projectile*> deleteEnemyProjectiles;
+	list<Coin*> deleteCoins;
 
 	background->update();
 
@@ -148,8 +149,36 @@ void GameLayer::update() {
 		int rX = (rand() % (600 - 500)) + 1 + 500;
 		int rY = (rand() % (300 - 60)) + 1 + 60;
 		enemies.push_back(new Enemy(rX, rY, game));
+		rX = (rand() % (600 - 500)) + 1 + 500;
+		rY = (rand() % (300 - 60)) + 1 + 60;
+		coins.push_back(new Coin(rX, rY, game));
 		newEnemyTime = 110;
+
 	}
+
+
+
+	// Colisiones moneda - player
+	for (auto const& coin : coins) {
+		coin->update();
+		if (player->isOverlap(coin)) {
+
+			points++;
+			textPoints->content = to_string(points);
+
+			//Elimina la coin
+			bool cInList = std::find(deleteCoins.begin(),
+				deleteCoins.end(),
+				coin) != deleteCoins.end();
+
+			if (!cInList) {
+				deleteCoins.push_back(coin);
+
+			}
+
+		}
+	}
+	
 
 
 	player->update();
@@ -284,6 +313,11 @@ void GameLayer::update() {
 	}
 	deleteEnemies.clear();
 
+	for (auto const& delCoin : deleteCoins) {
+		coins.remove(delCoin);
+	}
+	deleteCoins.clear();
+
 	for (auto const& delProjectile : deletePlayerProjectiles) {
 		playerProjectiles.remove(delProjectile);
 		delete delProjectile;
@@ -315,6 +349,10 @@ void GameLayer::draw() {
 	}
 
 	player->draw();
+
+	for (auto const& coin : coins) {
+		coin->draw();
+	}
 
 	for (auto const& enemy : enemies) {
 		enemy->draw();
