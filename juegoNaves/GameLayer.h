@@ -34,17 +34,25 @@ public:
 	list<Coin*> coins;
 	list<Bomb*> bombs;
 
-	Player* player;
+	Player* player1;
+	Player* player2;
+
 	Background* background;
 	Actor* backgroundPoints;
 	Actor* backgroundLifes;
 
 	Text* textPoints;
-	Text* textLifes;
+	Text* textLifes1;
+	Text* textLifes2;
 	int points;
-	bool controlShoot = false;
-	int controlMoveY = 0;
-	int controlMoveX = 0;
+	
+	bool controlShoot1 = false;
+	int controlMoveY1 = 0;
+	int controlMoveX1 = 0;
+
+	bool controlShoot2 = false;
+	int controlMoveY2 = 0;
+	int controlMoveX2 = 0;
 };
 
 
